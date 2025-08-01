@@ -36,7 +36,7 @@ spec:
   ports:
   - port: 80
     protocol: TCP
-    targetPort: 88888
+    targetPort: 8888
   selector:
     app: dep
 
