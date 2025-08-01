@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: dep
+  name: dep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dep
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: dep
+    spec:
+      containers:
+      - image: wil42/playground
+        name: playground
+        resources: {}
+status: {}
+
+---
+# service
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: dep
+  name: dep
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: dep
+
+---
+# ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  creationTimestamp: null
+  name: dep
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: dep
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
